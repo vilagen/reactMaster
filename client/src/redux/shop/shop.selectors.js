@@ -19,7 +19,8 @@ export const selectCollections = createSelector(
 // we are collecting a list of keys, then usin map function to create a new array for collection-overview to use.
 export const selectCollectionsForPreview = createSelector(
   [selectCollections],
-  (collections) => Object.keys(collections).map((key) => collections[key])
+  (collections) =>
+    collections ? Object.keys(collections).map((key) => collections[key]) : []
 );
 
 export const selectCollection = (collectionUrlParam) =>
@@ -28,7 +29,6 @@ export const selectCollection = (collectionUrlParam) =>
   //   (collection) => collection.id === COLLECTION_ID_MAP[collectionUrlParam]
   // )
   // after updating the array on shop.data.js to a full object:
-  createSelector(
-    [selectCollections],
-    (collections) => collections[collectionUrlParam]
+  createSelector([selectCollections], (collections) =>
+    collections ? collections[collectionUrlParam] : null
   );
