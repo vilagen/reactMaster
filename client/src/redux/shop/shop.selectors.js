@@ -8,7 +8,10 @@ const COLLECTION_ID_MAP = {
   mens: 5,
 };
 
-const selectShop = (state) => state.shop;
+const selectShop = (state) => {
+  console.log(state);
+  return state.shop;
+};
 
 export const selectCollections = createSelector(
   [selectShop],
@@ -32,3 +35,13 @@ export const selectCollection = (collectionUrlParam) =>
   createSelector([selectCollections], (collections) =>
     collections ? collections[collectionUrlParam] : null
   );
+
+export const selectIsCollectionFetching = createSelector(
+  [selectShop],
+  (shop) => shop.isFetching
+);
+
+export const selectIsCollectionsLoading = createSelector(
+  [selectShop],
+  (shop) => !!shop.collections // !! is shorthand for javascript to return if value is truthy or falsey, so returning a boolean
+);
