@@ -44,13 +44,26 @@ class ShopPage extends React.Component {
     const { updateCollections } = this.props;
     const collectionRef = firestore.collection("collections");
 
-    this.unsubscribeFromSnapshot = collectionRef.onSnapshot(
-      async (onSnapshot) => {
-        const collectionsMap = convertCollectionsSnapshotToMap(onSnapshot);
-        updateCollections(collectionsMap);
-        this.setState({ loading: false });
-      }
-    );
+    // fetch(
+    //   "https://firestore.googleapis.com/v1/projects/crwn-db-91ebb/databases/(default)/documents/collections"
+    // )
+    //   .then((response) => response.json())
+    //   .then((collections) => console.log(collections));
+
+    // this.unsubscribeFromSnapshot = collectionRef.onSnapshot(
+    //   async (onSnapshot) => {
+    //     const collectionsMap = convertCollectionsSnapshotToMap(onSnapshot);
+    //     updateCollections(collectionsMap);
+    //     this.setState({ loading: false });
+    //   }
+    // );
+
+    // another way to do this, but not really using a subscription model.
+    collectionRef.get().then((onSnapshot) => {
+      const collectionsMap = convertCollectionsSnapshotToMap(onSnapshot);
+      updateCollections(collectionsMap);
+      this.setState({ loading: false });
+    });
   }
 
   render() {
